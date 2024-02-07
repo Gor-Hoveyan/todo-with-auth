@@ -24,17 +24,17 @@ Styling with SCSS for a modular and maintainable stylesheet
 <h2>Technologies</h2>
 
 
-Next.js: Framework for building React applications with server-side rendering capabilities.
+<b>Next.js</b>: Framework for building React applications with server-side rendering capabilities.
 
-TypeScript: Adds static typing to JavaScript, improving code quality and maintainability.
+<b>TypeScript</b>: Adds static typing to JavaScript, improving code quality and maintainability.
 
-Redux Toolkit: State management library for handling global state, including user authentication and Todo data.
+<b>Redux Toolkit</b>: State management library for handling global state, including user authentication and Todo data.
 
-Node.js (Express.js): Backend framework for building scalable and efficient server-side applications.
+<b>Node.js (Express.js)</b>: Backend framework for building scalable and efficient server-side applications.
 
-MongoDB (Mongoose): NoSQL database for storing and retrieving Todo data.
+<b>MongoDB (Mongoose)</b>: NoSQL database for storing and retrieving Todo data.
 
-SCSS: Preprocessor for CSS, providing modular and maintainable styling.
+<b>SCSS</b>: Preprocessor for CSS, providing modular and maintainable styling.
 
 
 <h2>Installation and Running</h2>
