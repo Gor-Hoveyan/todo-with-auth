@@ -6,7 +6,7 @@
 This project is a Todo List application built using Next.js with TypeScript, Redux Toolkit for state management, Node.js (Express.js) for the server, MongoDB for data storage, and SCSS for styling. The app includes authentication, validation, and CRUD operations to control the server.
 
 
-<h3>Features</h3>
+<h2>Features</h2>
 
 User authentication to secure Todo data
 
@@ -20,7 +20,9 @@ Integration with MongoDB for persistent data storage
 
 Styling with SCSS for a modular and maintainable stylesheet
 
-<h3>Technologies</h3>
+
+<h2>Technologies</h2>
+
 
 Next.js: Framework for building React applications with server-side rendering capabilities.
 
@@ -34,7 +36,9 @@ MongoDB (Mongoose): NoSQL database for storing and retrieving Todo data.
 
 SCSS: Preprocessor for CSS, providing modular and maintainable styling.
 
-<h3>Installation and Running</h3>
+
+<h2>Installation and Running</h2>
+
 
 Clone the repository: git clone https://github.com/Gor-Hoveyan/todoWithAuth
 
@@ -44,13 +48,17 @@ Install dependencies: npm install
 
 Start the development server: npm run dev
 
-<h3>Configuration</h3>
+
+<h2>Configuration</h2>
+
 
 Set up a MongoDB database and update the connection details in the server code.
 
 Configure user authentication settings based on your preferred authentication method.
 
-<h3>Usage</h3>
+
+<h2>Usage</h2>
+
 
 Access the Todo List app through the provided URL and start managing your tasks.
 
