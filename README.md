@@ -1,7 +1,7 @@
 Next.js Todo list with authorization
 
 
-Project Overview
+<h1>Project Overview</h1>
 
 This project is a Todo List application built using Next.js with TypeScript, Redux Toolkit for state management, Node.js (Express.js) for the server, MongoDB for data storage, and SCSS for styling. The app includes authentication, validation, and CRUD operations to control the server.
 
