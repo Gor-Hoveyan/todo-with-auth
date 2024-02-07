@@ -24,7 +24,7 @@ Styling with SCSS for a modular and maintainable stylesheet
 <h2>Technologies</h2>
 
 
-<b>Next.js</b>: Framework for building React applications with server-side rendering capabilities.
+<h3>Next.js</h3>: Framework for building React applications with server-side rendering capabilities.
 
 <b>TypeScript</b>: Adds static typing to JavaScript, improving code quality and maintainability.
 
