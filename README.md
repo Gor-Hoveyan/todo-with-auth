@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1>Next.js Todo list with authorization</h1>
 
-## Getting Started
 
-First, run the development server:
+<h2>Project Overview</h2>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This project is a Todo List application built using Next.js with TypeScript, Redux Toolkit for state management, Node.js (Express.js) for the server, MongoDB for data storage, and SCSS for styling. The app includes authentication, validation, and CRUD operations to control the server.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<h2>Features</h2>
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+User authentication to secure Todo data
 
-## Learn More
+CRUD (Create, Read, Update, Delete) operations for managing Todo items
 
-To learn more about Next.js, take a look at the following resources:
+Server-side rendering with Next.js for improved performance
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Form validation to ensure data integrity
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Integration with MongoDB for persistent data storage
 
-## Deploy on Vercel
+Styling with SCSS for a modular and maintainable stylesheet
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<h2>Technologies</h2>
+
+
+<b>Next.js</b>: Framework for building React applications with server-side rendering capabilities.
+
+<b>TypeScript</b>: Adds static typing to JavaScript, improving code quality and maintainability.
+
+<b>Redux Toolkit</b>: State management library for handling global state, including user authentication and Todo data.
+
+<b>Node.js (Express.js)</b>: Backend framework for building scalable and efficient server-side applications.
+
+<b>MongoDB (Mongoose)</b>: NoSQL database for storing and retrieving Todo data.
+
+<b>SCSS</b>: Preprocessor for CSS, providing modular and maintainable styling.
+
+
+<h2>Installation and Running</h2>
+
+
+Clone the repository: git clone https://github.com/Gor-Hoveyan/todoWithAuth
+
+Navigate to the project directory
+
+Install dependencies: npm install
+
+Start the development server: npm run dev
+
+
+<h2>Configuration</h2>
+
+
+Set up a MongoDB database and update the connection details in the server code.
+
+Configure user authentication settings based on your preferred authentication method.
+
+
+<h2>Usage</h2>
+
+
+Access the Todo List app through the provided URL and start managing your tasks.
+
+Register and log in to enable authentication features.
+
+Contributions and Feedback
+
+Contributions and feedback are welcome! If you have suggestions, find bugs, or want to improve the project, please create an issue or submit a pull request.
+
