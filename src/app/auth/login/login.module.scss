@@ -1,4 +1,4 @@
-.loginContainer {
+@mixin loginContainer-style {
     display: block;
     text-align: center;
     flex-direction: row;
@@ -17,7 +17,6 @@
         font-size: 22px;
         font-style: italic;
         padding: 0px 15px;
-
         &::placeholder {
             color: lightgrey;
         }
@@ -28,15 +27,41 @@
     }
 
     .btn {
-        background-color: black;
         width: 200px;
         height: 40px;
         border-radius: 10px;
         border: none;
         margin-top: 10px;
+        cursor: pointer;
     }
     .loginError {
         margin-top: 20px;
         color: orangered;
+    }
+}
+
+.darkLoginContainer {
+    @include loginContainer-style;
+    background-color: darkblue;
+
+    .btn {
+        background-color: black;
+    }
+}
+
+.lightLoginContainer {
+    @include loginContainer-style;
+    background-color: lightseagreen;
+
+    .loginInput {
+        background-color: white;
+        color: black;
+    }
+    .btn {
+        background-color: white;
+        color: black;
+        :hover {
+            border: 1px solid black;
+        }
     }
 }

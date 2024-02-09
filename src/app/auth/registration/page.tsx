@@ -14,6 +14,7 @@ export default function Register() {
     const authFormData = useAppSelector(state => state.todoReducer.authFormData);
     const wrongData = useAppSelector(state => state.todoReducer.errorMessage);
     const repeatPassword = useAppSelector(state => state.todoReducer.repeatedPassword);
+    const isDarkMode = useAppSelector(state => state.todoReducer.isDarkMode);
 
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -21,21 +22,20 @@ export default function Register() {
         const formData = new FormData(formElement);
         const username = formData.get('userName') as string;
         const password = formData.get('password') as string;
-        
-        
-        if(repeatPassword === password) {
-        const res: any = await dispatch(fetchRegister({ userName: username, password }));
-        localStorage.setItem('accountToken', res.payload.token);
-        dispatch(fetchUser({ accountToken: res.payload.token })).then((response) => (response.payload as { user: UserType })).then(res => {
-            dispatch(clearAuthFormData());
-            dispatch(setErrorMessage(''))
-            dispatch(setUser(res.user));
-            console.log('success');
-            router.push('/');
-        });
-    } else {
-        dispatch(setErrorMessage('Entered passwords are different from each other'));
-    }
+
+        if (repeatPassword === password) {
+            const res: any = await dispatch(fetchRegister({ userName: username, password }));
+            localStorage.setItem('accountToken', res.payload.token);
+            dispatch(fetchUser({ accountToken: res.payload.token })).then((response) => (response.payload as { user: UserType })).then(res => {
+                dispatch(clearAuthFormData());
+                dispatch(setErrorMessage(''))
+                dispatch(setUser(res.user));
+                console.log('success');
+                router.push('/');
+            });
+        } else {
+            dispatch(setErrorMessage('Entered passwords are different from each other'));
+        }
     }
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -58,19 +58,19 @@ export default function Register() {
     }, [])
 
     return (
-        <div className={styles.registerContainer}>
-        <h1 className={styles.registerHeader}>Sign Up</h1>
-        <br />
-        <form onSubmit={(event) => onSubmit(event)}>
-            <input className={styles.registerInput} value={authFormData.userName} name="userName" type="text" placeholder="Username" onChange={(event) => handleChange(event)} />
+        <div className={isDarkMode ? styles.darkRegisterContainer : styles.lightRegisterContainer}>
+            <h1 className={styles.registerHeader}>Sign Up</h1>
             <br />
-            <input className={styles.registerInput} value={authFormData.password} name="password" type="password" placeholder="Password" onChange={(event) => handleChange(event)} />
-            <br />
-            <input className={styles.registerInput} value={repeatPassword} name="repeatPassword" type="password" placeholder="Repeat Password" onChange={(event) => handleRepeatPasswordChange(event.target.value)} />
-            <br />
-            <button className={styles.btn} type='submit'>Register</button>
-        </form>
-        <p className={styles.registerError}>{wrongData}</p>
+            <form onSubmit={(event) => onSubmit(event)}>
+                <input className={styles.registerInput} value={authFormData.userName} name="userName" type="text" placeholder="Username" onChange={(event) => handleChange(event)} />
+                <br />
+                <input className={styles.registerInput} value={authFormData.password} name="password" type="password" placeholder="Password" onChange={(event) => handleChange(event)} />
+                <br />
+                <input className={styles.registerInput} value={repeatPassword} name="repeatPassword" type="password" placeholder="Repeat Password" onChange={(event) => handleRepeatPasswordChange(event.target.value)} />
+                <br />
+                <button className={styles.btn} type='submit'>Register</button>
+            </form>
+            <p className={styles.registerError}>{wrongData}</p>
         </div>
     )
 }

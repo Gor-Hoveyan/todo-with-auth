@@ -57,6 +57,7 @@ type InitialState = {
     errorMessage: string,
     repeatedPassword: string,
     newTodoContent: string,
+    isDarkMode: boolean
 }
 
 const initialState: InitialState = {
@@ -73,6 +74,7 @@ const initialState: InitialState = {
     errorMessage: '',
     repeatedPassword: '',
     newTodoContent: '',
+    isDarkMode: false,
 }
 
 const todoReducer = createSlice({
@@ -116,9 +118,28 @@ const todoReducer = createSlice({
         },
         setNewTodoContent: (state, action: PayloadAction<string>) => {
             state.newTodoContent = action.payload;
+        },
+        setIsDarkMode: (state) => {
+            state.isDarkMode = !state.isDarkMode;
+            if(state.isDarkMode === true) {
+                document.body.style.backgroundColor = 'black';
+            } else {
+                document.body.style.backgroundColor = 'white';
+            }
         }
     }
 })
 
-export const { setTodos, setUser, setAuthFormData, setIsTodoEditing, setEditedContent, clearAuthFormData, setErrorMessage, setRepeatedPassword, setNewTodoContent } = todoReducer.actions;
+export const {
+    setTodos,
+    setUser,
+    setAuthFormData,
+    setIsTodoEditing,
+    setEditedContent,
+    clearAuthFormData,
+    setErrorMessage,
+    setRepeatedPassword,
+    setNewTodoContent,
+    setIsDarkMode
+} = todoReducer.actions;
 export default todoReducer.reducer;

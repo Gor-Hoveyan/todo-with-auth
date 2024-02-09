@@ -16,6 +16,7 @@ export default function Todos() {
     const token = localStorage.getItem('accountToken');
     const user = useAppSelector(state => state.todoReducer.user);
     const newTodoContent = useAppSelector(state => state.todoReducer.newTodoContent);
+    const isDarkMode = useAppSelector(state => state.todoReducer.isDarkMode);
 
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -93,7 +94,7 @@ export default function Todos() {
     }, [])
 
     return (
-        <div className={styles.todoContainer}>
+        <div className={isDarkMode ? styles.darkTodoContainer : styles.lightTodoContainer}>
             <h1 className={styles.todoHeader}>{user.userName}'s ToDo List</h1>
             <form className={styles.todoForm} onSubmit={onSubmit}>
                 <input value={newTodoContent} className={styles.todosInput} type="text" name='content' placeholder="Enter new task" onChange={(event) => handleChangeNewContent(event.target.value)} />
@@ -110,7 +111,12 @@ export default function Todos() {
                                     <button className={styles.btn} onClick={() => changeTodo(todo._id)}>Save</button>
                                 </>
                                 :
-                                <p className={styles.todo} onClick={(event: any) => handleStartOfEditing(todo._id, event.target.textContent)}>{todo.content}</p>
+                                <>
+                                    <input className={styles.todoCheckbox} value='' type='checkbox' name='todo' id={'checkbox' + index} />
+                                    <label htmlFor={`checkbox${index}`}>
+                                        <p className={styles.todo} onClick={(event: any) => handleStartOfEditing(todo._id, event.target.textContent)}>{todo.content}</p>
+                                    </label>
+                                </>
                             }
 
                             <button className={styles.btn} onClick={() => removeTodo(todo._id)}>Delete</button>

@@ -1,10 +1,9 @@
-.todoContainer {
+@mixin todoContainer-style {
     display: flex;
     align-items: center;
     width: 60%;
     margin: 200px auto;
     flex-direction: column;
-    background-color: darkblue;
     border-radius: 100px;
 
     .todoHeader {
@@ -40,10 +39,9 @@
             margin-left: 10px;
             border: none;
             margin-bottom: 25px;
+            cursor: pointer;
         }
     }
-
-
 
     .todoDiv {
         justify-content: center;
@@ -56,15 +54,91 @@
             width: 100px;
             height: 30px;
             border: none;
-            background-color: black;
             border-radius: 15px;
             margin: 0px 10px;
+            cursor: pointer;
         }
         .changeTodo {
             height: 30px;
             border: none;
             padding: 5px;
             border-radius: 15px;
+            font-style: italic;
+            font-size: 16px;
+        }
+        .todoCheckbox {
+            width: 25px;
+            height: 25px;
+            margin-right: 10px;
+            border: none;
+        }
+    }
+}
+
+.darkTodoContainer {
+    @include todoContainer-style;
+    background-color: darkblue;
+
+    .todoForm {
+
+        .todosInput {
+            &::placeholder {
+                color: lightgrey;
+            }
+        }
+        .addBtn {
+            background-color: black;
+        }
+    }
+
+    .todoDiv {
+        .btn {
+            background-color: black;
+        }
+    }
+}
+
+.lightTodoContainer {
+    @include todoContainer-style;
+    background-color: lightseagreen;
+
+    .todoForm {
+
+        .todosInput{
+            background-color: white;
+            color: black;
+            &::placeholder {
+                color: gray;
+            }
+        }
+        .addBtn {
+            background-color: white;
+            color: black;
+            font-weight: bolder;
+            &:hover {
+                border: 1px solid black;
+            }
+        }
+    }
+
+    .todoDiv {
+        .btn {
+            background-color: white;
+            color: black;
+            font-weight: bolder;
+            &:hover {
+                border: 1px solid black;
+            }
+        }
+        .changeTodo {
+            background-color: white;
+            color: black;
+            &::placeholder {
+                color: gray;
+            }
+        }
+        .todoCheckbox {
+            accent-color: white;
         }
     }
 }

@@ -1,10 +1,9 @@
-.registerContainer {
+@mixin registerContainer-style {
     display: block;
     text-align: center;
     flex-direction: row;
     width: 50%;
     margin: 200px auto;
-    background-color: darkblue;
     border-radius: 30px;
     padding: 40px 40px 70px 40px;
 
@@ -17,7 +16,6 @@
         font-size: 22px;
         font-style: italic;
         padding: 0px 15px;
-
         &::placeholder {
             color: lightgrey;
         }
@@ -28,15 +26,42 @@
     }
 
     .btn {
-        background-color: black;
         width: 200px;
         height: 40px;
         border-radius: 10px;
         border: none;
         margin-top: 10px;
+        cursor: pointer;
     }
     .registerError {
         margin-top: 20px;
         color: orangered;
+    }
+}
+
+.darkRegisterContainer {
+    @include registerContainer-style;
+    background-color: darkblue;
+
+    .btn {
+        background-color: black;
+    }
+}
+
+.lightRegisterContainer {
+    @include registerContainer-style;
+    background-color: lightseagreen;
+
+    .registerInput {
+        background-color: white;
+        color: black;
+    }
+
+    .btn {
+        background-color: white;
+        color: black;
+        :hover {
+            border: 1px solid black;
+        }
     }
 }

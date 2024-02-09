@@ -12,6 +12,8 @@ export default function Login() {
     const router = useRouter();
     const authFormData = useAppSelector(state => state.todoReducer.authFormData);
     const wrongData = useAppSelector(state => state.todoReducer.errorMessage);
+    const isDarkMode = useAppSelector(state => state.todoReducer.isDarkMode);
+
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const formElement = event?.currentTarget;
@@ -50,7 +52,7 @@ export default function Login() {
     }, [])
 
     return (
-        <div className={styles.loginContainer}>
+        <div className={isDarkMode ? styles.darkLoginContainer : styles.lightLoginContainer}>
             <h1 className={styles.loginHeader}>Sign in</h1>
             <br />
             <form onSubmit={(event) => onSubmit(event)}>

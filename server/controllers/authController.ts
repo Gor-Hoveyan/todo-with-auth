@@ -7,7 +7,7 @@ import { config } from './config.js'
 
 const generateAccessToken = (id: any) => {
     const payload = {id};
-    return jwt.sign(payload, config.secret , {expiresIn: '24h'})
+    return jwt.sign(payload, config.secret , {expiresIn: '7d'})
 }
 
 async function registration(req: Request, res: Response) {

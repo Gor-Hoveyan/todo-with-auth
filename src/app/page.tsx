@@ -1,4 +1,5 @@
 'use client';
+import styles from './page.module.css';
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
 import { fetchUser, setUser } from "@/redux/reducers/todoReducer";
@@ -10,6 +11,7 @@ export default function Home() {
   const dispatch = useAppDispatch();
   const token: string | null = localStorage.getItem('accountToken');
   const router = useRouter();
+  const isDarkMode = useAppSelector(state => state.todoReducer.isDarkMode);
 
   useEffect(() => {
     router.refresh();
@@ -28,7 +30,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main >
+    <main className={isDarkMode ? styles.dark : styles.light} >
       {user ?
         <Todos />
         : 'You need to be authorized'
