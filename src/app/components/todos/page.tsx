@@ -6,6 +6,7 @@ import { TodoType } from "@/utils/types";
 import { FormEvent } from "react";
 import { createTodo, deleteTodo, updateTodo, setIsTodoEditing, setEditedContent, fetchUser, setTodos, setUser, setNewTodoContent } from "@/redux/reducers/todoReducer";
 import { useRouter } from "next/navigation";
+import { getCookie } from '@/utils/functions';
 
 export default function Todos() {
     const todos: TodoType[] = useAppSelector(state => state.todoReducer.Todos);
@@ -13,7 +14,7 @@ export default function Todos() {
     const dispatch = useAppDispatch();
     const editedContent = useAppSelector(state => state.todoReducer.editedContent);
     const router = useRouter()
-    const token = localStorage.getItem('accountToken');
+    const token = getCookie();
     const user = useAppSelector(state => state.todoReducer.user);
     const newTodoContent = useAppSelector(state => state.todoReducer.newTodoContent);
     const isDarkMode = useAppSelector(state => state.todoReducer.isDarkMode);

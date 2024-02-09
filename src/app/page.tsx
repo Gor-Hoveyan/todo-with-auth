@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation";
 import { fetchUser, setUser } from "@/redux/reducers/todoReducer";
 import { useEffect } from "react";
 import Todos from "./components/todos/page";
+import { getCookie } from '@/utils/functions';
 
 export default function Home() {
   const user = useAppSelector(state => state.todoReducer.user);
   const dispatch = useAppDispatch();
-  const token: string | null = localStorage.getItem('accountToken');
+  const token: string | null = getCookie();
   const router = useRouter();
   const isDarkMode = useAppSelector(state => state.todoReducer.isDarkMode);
 
@@ -20,7 +21,7 @@ export default function Home() {
     } else {
       try {
         dispatch(fetchUser({ accountToken: token })).then((res: any) => {
-          dispatch(setUser(res.payload.user));
+          dispatch(setUser(res.payload.user));debugger
         });
       } catch (e) {
         router.push('/auth/login');

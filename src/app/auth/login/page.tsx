@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { fetchLogin, fetchUser, setUser, setAuthFormData, clearAuthFormData, setErrorMessage } from "@/redux/reducers/todoReducer";
 import { UserType } from "@/utils/types";
 import { useRouter } from "next/navigation";
+import { getCookie } from '@/utils/functions';
 
 export default function Login() {
 
@@ -22,8 +23,8 @@ export default function Login() {
         const password = formData.get('password') as string;
         const res: any = await dispatch(fetchLogin({ userName: username, password }));
         if (res.payload.message !== "Entered invalid userName or password") {
-            localStorage.setItem('accountToken', res.payload.token);
-            dispatch(fetchUser({ accountToken: res.payload.token })).then((response) => (response.payload as { user: UserType })).then(res => {
+            document.cookie = `token:${res.payload.token}`;
+            dispatch(fetchUser({ accountToken: getCookie('token') })).then((response) => (response.payload as { user: UserType })).then(res => {
                 dispatch(clearAuthFormData());
                 dispatch(setErrorMessage(''));
                 dispatch(setUser(res.user));

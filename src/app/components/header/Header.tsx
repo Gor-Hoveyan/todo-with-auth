@@ -5,17 +5,18 @@ import { IoMoon } from "react-icons/io5";
 import { IoSunny } from "react-icons/io5";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setIsDarkMode } from "@/redux/reducers/todoReducer";
+import { getCookie } from "@/utils/functions";
 
 export default function Header() {
     const isDarkMode = useAppSelector(state => state.todoReducer.isDarkMode);
-    let token: string | null = localStorage.getItem('accountToken');
+    let token: string | null = getCookie();
     const dispatch = useAppDispatch();
 
 
     function handleAuth() {
 
         function clearToken() {
-            localStorage.setItem('accountToken', "undefined");
+            document.cookie = 'token=undefined';
         }
 
         if (!token || token === 'undefined') {

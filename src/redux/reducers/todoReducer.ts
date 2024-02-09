@@ -95,6 +95,7 @@ const todoReducer = createSlice({
                 userName: '',
                 password: ''
             };
+            state.repeatedPassword = '';
         },
         setIsTodoEditing: (state, action: PayloadAction<string>) => {
             state.Todos.filter((todo: TodoType) => {

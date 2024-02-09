@@ -25,7 +25,7 @@ export default function Register() {
 
         if (repeatPassword === password) {
             const res: any = await dispatch(fetchRegister({ userName: username, password }));
-            localStorage.setItem('accountToken', res.payload.token);
+            document.cookie = `token:${res.payload.token}`;
             dispatch(fetchUser({ accountToken: res.payload.token })).then((response) => (response.payload as { user: UserType })).then(res => {
                 dispatch(clearAuthFormData());
                 dispatch(setErrorMessage(''))
