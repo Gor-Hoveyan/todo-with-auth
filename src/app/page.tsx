@@ -21,7 +21,7 @@ export default function Home() {
     } else {
       try {
         dispatch(fetchUser({ accountToken: token })).then((res: any) => {
-          dispatch(setUser(res.payload.user));debugger
+          dispatch(setUser(res.payload.user));
         });
       } catch (e) {
         router.push('/auth/login');

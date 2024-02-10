@@ -5,7 +5,7 @@ import { IoMoon } from "react-icons/io5";
 import { IoSunny } from "react-icons/io5";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setIsDarkMode } from "@/redux/reducers/todoReducer";
-import { getCookie } from "@/utils/functions";
+import { getCookie, clearAllCookies } from "@/utils/functions";
 
 export default function Header() {
     const isDarkMode = useAppSelector(state => state.todoReducer.isDarkMode);
@@ -14,10 +14,6 @@ export default function Header() {
 
 
     function handleAuth() {
-
-        function clearToken() {
-            document.cookie = 'token=undefined';
-        }
 
         if (!token || token === 'undefined') {
             return (
@@ -29,7 +25,7 @@ export default function Header() {
         } else {
             return (
                 <div className={styles.headerAuth}>
-                    <Link className={styles.headerLink} onClick={() => clearToken()} href={'/auth/login'}>Sign out</Link>
+                    <Link className={styles.headerLink} onClick={() => clearAllCookies()} href={'/auth/login'}>Sign out</Link>
                 </div>
             );
         }
