@@ -9,5 +9,6 @@ router.post('/registration', [
     check('password', 'Password must contain at least 7 letters').isLength({min: 6})
 ] ,authController.registration);
 router.post('/login', authController.login);
+router.get('/authoLog', authController.authoLog);
 
 export { router };

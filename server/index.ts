@@ -1,8 +1,9 @@
 import express, { Request, Response } from "express";
 import next from "next";
 import mongoose from "mongoose";
-import {router as authRouter}  from "./routers/authRouter";
-import {router as todoRouter} from './routers/todosRouter'
+import { router as authRouter } from "./routers/authRouter";
+import { router as todoRouter } from './routers/todosRouter'
+import cookieParser from 'cookie-parser';
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -18,6 +19,7 @@ mongoose.connect('mongodb+srv://gorhoveyan:333@cluster0.q3afx9w.mongodb.net/').t
   try {
     await app.prepare();
     const server = express();
+    server.use(cookieParser())
     server.use(express.json());
     server.use('/api/auth/', authRouter);
     server.use('/api/todos/', todoRouter);

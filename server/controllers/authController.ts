@@ -22,10 +22,12 @@ async function registration(req: Request, res: Response) {
         if(candidate) {
             return res.status(400).json({message: 'UserName is already taken'})
         }
+        
         const passwordHash = bcrypt.hashSync(password, 7);
         const user = new User({userName: userName, password: passwordHash});
         await user.save();
         const token = generateAccessToken(user._id);
+        res.cookie('ajwt', token, {httpOnly: true, sameSite: 'strict', maxAge: 7*24*3600*1000});
         return res.status(200).json({token});
     } catch(e) {
         console.log(e);
@@ -44,10 +46,25 @@ async function login(req: Request, res: Response) {
             res.status(400).json({message: 'Entered invalid userName or password'});
         }
         const token = generateAccessToken(user._id);
+        res.cookie('ajwt', token, {httpOnly: true, sameSite: 'strict', maxAge: 7*24*3600*1000});
         return res.status(200).json({token});
     } catch(e) {
         console.log('error', e);
     }
 }
 
-export const authController = {registration, login};
+async function authoLog(req: Request, res: Response) {
+    try {
+        const token = req.cookies.ajwt;
+        const decodedToken: any = jwt.verify(token, config.secret);
+        const user = await User.findById({_id: decodedToken.id});
+        if(!user) {
+            res.status(400).json({message: 'Authorization token expires'});
+        }
+        res.status(200).json({user: user});
+    } catch(e) {
+        res.status(500).json({message: 'Internal server error', e});
+    }
+}
+
+export const authController = {registration, login, authoLog};

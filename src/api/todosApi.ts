@@ -1,18 +1,3 @@
-
-async function getUser(accountToken: any) {
-    try {
-        const res = await fetch(`http://localhost:3000/api/todos/getUser?token=${accountToken}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        return res.json();
-    } catch (e) {
-        console.log('Error', e);
-    }
-}
-
 async function createTodo(content: string, creator: string) {
     try {
         await fetch('http://localhost:3000/api/todos/createTodo', {
@@ -62,4 +47,4 @@ async function updateTodo(id: string, creator: string, newContent: string) {
     
 }
 
-export const todosApi = { getUser, createTodo, deleteTodo, updateTodo };
+export const todosApi = { createTodo, deleteTodo, updateTodo };

@@ -2,8 +2,7 @@
 import styles from './registration.module.scss';
 import { FormEvent, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { fetchRegister, fetchUser, setUser, setAuthFormData, clearAuthFormData, setErrorMessage, setRepeatedPassword } from "@/redux/reducers/todoReducer";
-import { UserType } from "@/utils/types";
+import { fetchRegister, setUser, setAuthFormData, clearAuthFormData, setErrorMessage, setRepeatedPassword } from "@/redux/reducers/todoReducer";
 import { useRouter } from "next/navigation";
 
 
@@ -24,15 +23,8 @@ export default function Register() {
         const password = formData.get('password') as string;
 
         if (repeatPassword === password) {
-            const res: any = await dispatch(fetchRegister({ userName: username, password }));
-            document.cookie = `token:${res.payload.token}`;
-            dispatch(fetchUser({ accountToken: res.payload.token })).then((response) => (response.payload as { user: UserType })).then(res => {
-                dispatch(clearAuthFormData());
-                dispatch(setErrorMessage(''))
-                dispatch(setUser(res.user));
-                console.log('success');
-                router.push('/');
-            });
+            await dispatch(fetchRegister({ userName: username, password }));
+            router.push('/');
         } else {
             dispatch(setErrorMessage('Entered passwords are different from each other'));
         }

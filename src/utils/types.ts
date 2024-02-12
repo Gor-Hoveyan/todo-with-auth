@@ -10,14 +10,16 @@ export type UserType = {
     _id: string
 }
 
+export type FetchedUserType = {
+    password: string,
+    todos: TodoType[],
+    userName: string,
+    v: number,
+    _id: string
+}
+
 export type FetchedDataType = {
-    user: {
-        password: string,
-        todos: TodoType[],
-        userName: string,
-        v: number,
-        _id: string
-    }
+    user: FetchedUserType
 }
 
 export type LoginProps = {

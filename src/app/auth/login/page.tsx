@@ -2,10 +2,8 @@
 import styles from './login.module.scss';
 import { FormEvent, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { fetchLogin, fetchUser, setUser, setAuthFormData, clearAuthFormData, setErrorMessage } from "@/redux/reducers/todoReducer";
-import { UserType } from "@/utils/types";
+import { fetchLogin, setAuthFormData, clearAuthFormData, setErrorMessage } from "@/redux/reducers/todoReducer";
 import { useRouter } from "next/navigation";
-import { getCookie } from '@/utils/functions';
 
 export default function Login() {
 
@@ -21,19 +19,13 @@ export default function Login() {
         const formData = new FormData(formElement);
         const username = formData.get('userName') as string;
         const password = formData.get('password') as string;
+
         const res: any = await dispatch(fetchLogin({ userName: username, password }));
-        if (res.payload.message !== "Entered invalid userName or password") {
-            document.cookie = `token:${res.payload.token}`;
-            dispatch(fetchUser({ accountToken: getCookie('token') })).then((response) => (response.payload as { user: UserType })).then(res => {
-                dispatch(clearAuthFormData());
-                dispatch(setErrorMessage(''));
-                dispatch(setUser(res.user));
-                console.log('success');
-                router.push('/');
-            });
+
+        if (res.payload.message !== 'Entered invalid userName or password') {
+            router.push('/');
         } else {
-            dispatch(setErrorMessage(res.payload.message));
-            router.refresh();
+            dispatch(setErrorMessage('Entered invalid userName or password'));
         }
     }
 
@@ -49,7 +41,6 @@ export default function Login() {
     useEffect(() => {
         dispatch(clearAuthFormData());
         dispatch(setErrorMessage(''));
-        router.refresh();
     }, [])
 
     return (

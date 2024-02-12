@@ -71,19 +71,4 @@ async function getTodos(req: Request, res: Response) {
     }
 }
 
-async function getUser(req: Request, res: Response) {
-    try {
-        const token = req.query.token as string;
-        const decodedToken: any = jwt.verify(token, config.secret);
-        const user = await User.findById({ _id: decodedToken.id });
-        if (!user) {
-            res.status(400).json({ message: 'User not found' });
-        }
-        res.status(200).json({ user: user });
-    } catch (e) {
-        res.status(500).json({ message: 'Internal Server Error', e });
-    }
-
-}
-
-export const todosController = { createTodo, deleteTodo, updateTodo, getTodos, getUser };
+export const todosController = { createTodo, deleteTodo, updateTodo, getTodos };

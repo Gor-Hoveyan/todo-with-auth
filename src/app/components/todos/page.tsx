@@ -1,20 +1,15 @@
 'use client';
 import styles from './todos.module.scss';
-import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { TodoType } from "@/utils/types";
 import { FormEvent } from "react";
-import { createTodo, deleteTodo, updateTodo, setIsTodoEditing, setEditedContent, fetchUser, setTodos, setUser, setNewTodoContent } from "@/redux/reducers/todoReducer";
-import { useRouter } from "next/navigation";
-import { getCookie } from '@/utils/functions';
+import { createTodo, deleteTodo, updateTodo, setIsTodoEditing, setEditedContent, setTodos, setUser, setNewTodoContent, autoLogin } from "@/redux/reducers/todoReducer";
 
 export default function Todos() {
     const todos: TodoType[] = useAppSelector(state => state.todoReducer.Todos);
     const userId = useAppSelector(state => state.todoReducer.user._id);
     const dispatch = useAppDispatch();
     const editedContent = useAppSelector(state => state.todoReducer.editedContent);
-    const router = useRouter()
-    const token = getCookie();
     const user = useAppSelector(state => state.todoReducer.user);
     const newTodoContent = useAppSelector(state => state.todoReducer.newTodoContent);
     const isDarkMode = useAppSelector(state => state.todoReducer.isDarkMode);
@@ -69,30 +64,14 @@ export default function Todos() {
 
 
     function refreshpage() {
-        if (token) {
-            dispatch(fetchUser({ accountToken: token })).then((res: any) => {
-                dispatch(setTodos(res.payload.user.todos));
-                dispatch(setUser(res.payload.user));
-                router.refresh();
-            });
-        }
+        dispatch(autoLogin()).then((res: any) => {
+            dispatch(setTodos(res.payload.todos));
+        })
     }
 
     function handleChangeNewContent(val: string) {
         dispatch(setNewTodoContent(val));
     }
-
-    useEffect(() => {
-        router.refresh();
-        if (!token || token === 'undefined') {
-            router.push('/auth/login');
-        } else {
-            dispatch(fetchUser({ accountToken: token })).then((res: any) => {
-                dispatch(setTodos(res.payload.user.todos));
-                dispatch(setUser(res.payload.user));
-            });
-        }
-    }, [])
 
     return (
         <div className={isDarkMode ? styles.darkTodoContainer : styles.lightTodoContainer}>
@@ -119,7 +98,6 @@ export default function Todos() {
                                     </label>
                                 </>
                             }
-
                             <button className={styles.btn} onClick={() => removeTodo(todo._id)}>Delete</button>
                         </div>
                     );

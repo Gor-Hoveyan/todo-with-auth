@@ -1,8 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { TodoType, UserType, FetchedDataType, FetchUserParams, LoginProps, CreateTodoParams, DeleteTodoParams, UpdateTodoParams } from "@/utils/types";
+import { TodoType, UserType, LoginProps, CreateTodoParams, DeleteTodoParams, UpdateTodoParams,} from "@/utils/types";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { todosApi } from "@/api/todosApi";
 import { authApi } from '@/api/authApi';
+
+export const autoLogin = createAsyncThunk<UserType>(
+    'auth/autoLog',
+    async () => {
+        const data: {user: UserType} = await authApi.authoLog();
+        return data.user;
+    }
+)
 
 export const fetchLogin = createAsyncThunk<string, LoginProps>(
     'auth/login',
@@ -20,13 +28,6 @@ export const fetchRegister = createAsyncThunk<string, LoginProps>(
     }
 );
 
-export const fetchUser = createAsyncThunk<FetchedDataType, FetchUserParams>(
-    '/todos/getTodos',
-    async ({ accountToken }) => {
-        const data = await todosApi.getUser(accountToken);
-        return data;
-    }
-);
 
 export const createTodo = createAsyncThunk<void, CreateTodoParams>(
     'todos/createTodo',
@@ -127,7 +128,13 @@ const todoReducer = createSlice({
             } else {
                 document.body.style.backgroundColor = 'white';
             }
-        }
+        },
+        signOut: (state) => {
+            state.user = {
+                userName: '',
+                _id: ''
+            }
+        },
     }
 })
 
@@ -141,6 +148,7 @@ export const {
     setErrorMessage,
     setRepeatedPassword,
     setNewTodoContent,
-    setIsDarkMode
+    setIsDarkMode,
+    signOut
 } = todoReducer.actions;
 export default todoReducer.reducer;
