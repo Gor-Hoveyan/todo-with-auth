@@ -44,6 +44,7 @@
     }
 
     .todoDiv {
+        margin: 0px auto;
         justify-content: center;
         align-items: center;
         display: flex;
@@ -73,6 +74,17 @@
             border: none;
         }
     }
+    .removeCheckedBtn {
+        width: 200px;
+        height: 40px;
+        display: block;
+        border-radius: 25px;
+        border: none;
+        margin: 20px auto;
+        font-size: 20px;
+        font-weight: bolder;
+        font-family: "Gill Sans", sans-serif;
+    }
 }
 
 .darkTodoContainer {
@@ -95,6 +107,10 @@
         .btn {
             background-color: black;
         }
+    }
+
+    .removeCheckedBtn {
+        background-color: black;
     }
 }
 
@@ -140,5 +156,9 @@
         .todoCheckbox {
             accent-color: white;
         }
+    }
+    .removeCheckedBtn {
+        background-color: white;
+        color: black;
     }
 }

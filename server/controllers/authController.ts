@@ -27,8 +27,8 @@ async function registration(req: Request, res: Response) {
         const user = new User({userName: userName, password: passwordHash});
         await user.save();
         const token = generateAccessToken(user._id);
-        res.cookie('ajwt', token, {httpOnly: true, sameSite: 'strict', maxAge: 7*24*3600*1000});
-        return res.status(200).json({token});
+        res.cookie('_ajwt', token, {httpOnly: true, sameSite: 'strict', maxAge: 7*24*3600*1000});
+        return res.status(200).json({message: 'Success'});
     } catch(e) {
         console.log(e);
     }
@@ -46,16 +46,17 @@ async function login(req: Request, res: Response) {
             res.status(400).json({message: 'Entered invalid userName or password'});
         }
         const token = generateAccessToken(user._id);
-        res.cookie('ajwt', token, {httpOnly: true, sameSite: 'strict', maxAge: 7*24*3600*1000});
-        return res.status(200).json({token});
+        res.cookie('_ajwt', token, {httpOnly: true, sameSite: 'strict', maxAge: 7*24*3600*1000});
+        return res.status(200).json({message: 'Success'});
     } catch(e) {
+        res.status(500).json({message: 'Internal server error'});
         console.log('error', e);
     }
 }
 
 async function authoLog(req: Request, res: Response) {
     try {
-        const token = req.cookies.ajwt;
+        const token = req.cookies._ajwt;
         const decodedToken: any = jwt.verify(token, config.secret);
         const user = await User.findById({_id: decodedToken.id});
         if(!user) {
@@ -67,4 +68,13 @@ async function authoLog(req: Request, res: Response) {
     }
 }
 
-export const authController = {registration, login, authoLog};
+async function signOut(req: Request, res: Response) {
+    try {
+        res.clearCookie('_ajwt');
+        res.status(400).json({message: 'Success'});
+    } catch (e) {
+        res.status(500).json({message: 'Internal serverError'})
+    }
+}
+
+export const authController = {registration, login, authoLog, signOut};

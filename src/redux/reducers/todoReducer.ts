@@ -1,6 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { TodoType, UserType, LoginProps, CreateTodoParams, DeleteTodoParams, UpdateTodoParams,} from "@/utils/types";
-import { PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { TodoType, UserType, LoginProps, CreateTodoParams, DeleteTodoParams, UpdateTodoParams, DeleteFewTodosParams, CheckedTodos, CheckedTodo,} from "@/utils/types";
 import { todosApi } from "@/api/todosApi";
 import { authApi } from '@/api/authApi';
 
@@ -10,7 +9,7 @@ export const autoLogin = createAsyncThunk<UserType>(
         const data: {user: UserType} = await authApi.authoLog();
         return data.user;
     }
-)
+);
 
 export const fetchLogin = createAsyncThunk<string, LoginProps>(
     'auth/login',
@@ -28,6 +27,12 @@ export const fetchRegister = createAsyncThunk<string, LoginProps>(
     }
 );
 
+export const signOutC = createAsyncThunk<void>(
+    'api/signOut',
+    async() => {
+        await authApi.sigOutC();
+    }
+);
 
 export const createTodo = createAsyncThunk<void, CreateTodoParams>(
     'todos/createTodo',
@@ -43,12 +48,21 @@ export const deleteTodo = createAsyncThunk<void, DeleteTodoParams>(
     }
 );
 
+export const deleteFewTodos = createAsyncThunk<string, DeleteFewTodosParams>(
+    '/todos/removeFewTodos',
+    async ({creator, todos}) => {
+        const data = await todosApi.removeFewTodos(creator, todos);
+        return data;
+    }
+);
+
 export const updateTodo = createAsyncThunk<void, UpdateTodoParams>(
     'todos/updateTodo',
     async ({ id, creator, newContent }) => {
         await todosApi.updateTodo(id, creator, newContent);
     }
-)
+);
+
 
 type InitialState = {
     user: UserType,
@@ -58,7 +72,8 @@ type InitialState = {
     errorMessage: string,
     repeatedPassword: string,
     newTodoContent: string,
-    isDarkMode: boolean
+    isDarkMode: boolean,
+    checkedTodos: CheckedTodos | []
 }
 
 const initialState: InitialState = {
@@ -75,7 +90,8 @@ const initialState: InitialState = {
     errorMessage: '',
     repeatedPassword: '',
     newTodoContent: '',
-    isDarkMode: false,
+    isDarkMode: true,
+    checkedTodos: []
 }
 
 const todoReducer = createSlice({
@@ -124,7 +140,7 @@ const todoReducer = createSlice({
         setIsDarkMode: (state) => {
             state.isDarkMode = !state.isDarkMode;
             if(state.isDarkMode === true) {
-                document.body.style.backgroundColor = 'black';
+                document.body.style.backgroundColor = '#121212';
             } else {
                 document.body.style.backgroundColor = 'white';
             }
@@ -135,6 +151,16 @@ const todoReducer = createSlice({
                 _id: ''
             }
         },
+        setCheckedTodos: (state, action: PayloadAction<CheckedTodo>) => {
+            state.checkedTodos = [...state.checkedTodos, action.payload];
+        },
+        setIsTodoChecked: (state, action: PayloadAction<string>) => {
+            state.checkedTodos.map(todo => {
+                if(todo.id === action.payload) {
+                    todo.isChecked = !todo.isChecked;
+                }
+            })
+        }
     }
 })
 
@@ -149,6 +175,8 @@ export const {
     setRepeatedPassword,
     setNewTodoContent,
     setIsDarkMode,
-    signOut
+    signOut,
+    setCheckedTodos,
+    setIsTodoChecked,
 } = todoReducer.actions;
 export default todoReducer.reducer;

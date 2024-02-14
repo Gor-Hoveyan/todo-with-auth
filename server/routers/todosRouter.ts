@@ -7,5 +7,6 @@ router.get('/getTodos', todosController.getTodos);
 router.post('/createTodo', todosController.createTodo);
 router.delete('/removeTodo', todosController.deleteTodo);
 router.put('/updateTodo', todosController.updateTodo);
+router.delete('/removeFewTodos', todosController.deleteFewTodos);
 
 export { router };

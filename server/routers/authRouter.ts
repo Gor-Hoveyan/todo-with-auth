@@ -10,5 +10,6 @@ router.post('/registration', [
 ] ,authController.registration);
 router.post('/login', authController.login);
 router.get('/authoLog', authController.authoLog);
+router.get('/signOut', authController.signOut);
 
 export { router };

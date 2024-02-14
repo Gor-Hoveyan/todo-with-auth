@@ -32,6 +32,25 @@ async function deleteTodo(id: string, creator: string) {
     }
 }
 
+async function removeFewTodos(creator: string, todos: string[]) {
+    try {
+        const res = await fetch(`http://localhost:3000/api/todos/removeFewTodos`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                creator: creator,
+                todos: todos,
+            })
+        });
+        return res.json();
+    } catch(e) {
+        console.log('Error', e)
+    }
+    
+}
+
 async function updateTodo(id: string, creator: string, newContent: string) {
     await fetch('http://localhost:3000/api/todos/updateTodo', {
         method: 'PUT',
@@ -47,4 +66,4 @@ async function updateTodo(id: string, creator: string, newContent: string) {
     
 }
 
-export const todosApi = { createTodo, deleteTodo, updateTodo };
+export const todosApi = { createTodo, deleteTodo, removeFewTodos ,updateTodo };

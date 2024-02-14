@@ -2,8 +2,8 @@
 import styles from './todos.module.scss';
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { TodoType } from "@/utils/types";
-import { FormEvent } from "react";
-import { createTodo, deleteTodo, updateTodo, setIsTodoEditing, setEditedContent, setTodos, setUser, setNewTodoContent, autoLogin } from "@/redux/reducers/todoReducer";
+import { FormEvent, useEffect } from "react";
+import { createTodo, deleteTodo, updateTodo, setIsTodoEditing, setEditedContent, setTodos, setNewTodoContent, autoLogin, setCheckedTodos, setIsTodoChecked, deleteFewTodos } from "@/redux/reducers/todoReducer";
 
 export default function Todos() {
     const todos: TodoType[] = useAppSelector(state => state.todoReducer.Todos);
@@ -13,18 +13,20 @@ export default function Todos() {
     const user = useAppSelector(state => state.todoReducer.user);
     const newTodoContent = useAppSelector(state => state.todoReducer.newTodoContent);
     const isDarkMode = useAppSelector(state => state.todoReducer.isDarkMode);
+    const checkedTodos = useAppSelector(state => state.todoReducer.checkedTodos);
 
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const formElement = event.currentTarget;
         const formData = new FormData(formElement);
         const content = formData.get('content') as string;
-
+        
         if (content) {
             dispatch(createTodo({ content: content, creator: userId })).then(() => {
                 dispatch(setNewTodoContent(''));
                 refreshpage();
-            });
+                
+            })
         }
     }
 
@@ -66,12 +68,39 @@ export default function Todos() {
     function refreshpage() {
         dispatch(autoLogin()).then((res: any) => {
             dispatch(setTodos(res.payload.todos));
-        })
+        });
     }
 
     function handleChangeNewContent(val: string) {
         dispatch(setNewTodoContent(val));
     }
+
+    function handleCheckBoxes() {
+        todos.map(todo => {
+            dispatch(setCheckedTodos({ id: todo._id, isChecked: false, }));
+        });
+    }
+
+    function handleCheckBoxChange(id: string) {
+        dispatch(setIsTodoChecked(id));
+    }
+
+    function removeChekedTodos() {
+        handleCheckBoxes();
+        let arr: string[] = []
+        checkedTodos.map(todo => {
+            if(todo.isChecked === true) {
+                arr.push(todo.id);
+            }
+        });
+        dispatch(deleteFewTodos({creator: userId, todos: arr})).then(() => {
+            refreshpage();
+        });
+    }
+
+    useEffect(() => {
+        handleCheckBoxes();
+    }, [todos])
 
     return (
         <div className={isDarkMode ? styles.darkTodoContainer : styles.lightTodoContainer}>
@@ -92,8 +121,8 @@ export default function Todos() {
                                 </>
                                 :
                                 <>
-                                    <input className={styles.todoCheckbox} value='' type='checkbox' name='todo' id={'checkbox' + index} />
-                                    <label htmlFor={`checkbox${index}`}>
+                                    <input onClick={() => handleCheckBoxChange(todo._id)} className={styles.todoCheckbox} value='' type='checkbox' name='todo' id={'checkbox' + index} />
+                                    <label  htmlFor={`checkbox${index}`}>
                                         <p className={styles.todo} onClick={(event: any) => handleStartOfEditing(todo._id, event.target.textContent)}>{todo.content}</p>
                                     </label>
                                 </>
@@ -102,6 +131,14 @@ export default function Todos() {
                         </div>
                     );
                 })}
+                {
+                    checkedTodos.some(todo => todo.isChecked) 
+                    ?
+                    <button className={styles.removeCheckedBtn} onClick={() => removeChekedTodos()}>Delete</button>
+                    :
+                    ''
+                }
+                
             </div>
         </div>
     )

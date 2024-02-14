@@ -11,7 +11,7 @@ async function createTodo(req: Request, res: Response) {
         await User.updateOne({ _id: creator }, { $push: { todos: todo } });
         res.status(200).json({ message: 'Todo successfully added' });
     } catch (e) {
-        console.log('Error', e)
+        res.status(500).json({ message: 'Internal Server Error', e });
     }
 }
 
@@ -24,11 +24,32 @@ async function deleteTodo(req: Request, res: Response) {
         }
         const todoIndex = user.todos.findIndex(todo => todo._id == id);
         await User.updateOne({ _id: creator }, {
-            $pull: { todos: { $in: [user.todos[todoIndex]] } } 
+            $pull: { todos: { $in: [user.todos[todoIndex]] } }
         })
         res.status(200).json({ message: 'Todo successfully removed' });
     } catch (e) {
-        console.log('Error', e);
+        res.status(500).json({ message: 'Internal Server Error', e });
+    }
+}
+
+async function deleteFewTodos(req: Request, res: Response) {
+    try {
+        const { todos, creator } = req.body;
+        const user = await User.findById(creator);
+        if (!user) {
+            res.status(400).json({ message: 'Invalid todo.' });
+        } else {
+            todos.map(async (todo: string) => {
+                const todoIndex = user.todos.findIndex(iTodo => iTodo._id == todo);
+                await User.updateMany({ _id: creator }, {
+                    $pull: { todos: { $in: [user.todos[todoIndex]] } }
+                })
+
+            })
+        }
+        res.status(200).json({ message: 'Todos successfully removed' });
+    } catch (e) {
+        res.status(500).json({ message: 'Internal Server Error', e });
     }
 }
 
@@ -55,7 +76,7 @@ async function updateTodo(req: Request, res: Response) {
         await User.updateOne({ _id: creator }, updateObject);
         res.status(200).json({ message: 'Todo successfully updated' });
     } catch (e) {
-        console.log('Error', e)
+        res.status(500).json({ message: 'Internal Server Error', e });
     }
 }
 
@@ -71,4 +92,4 @@ async function getTodos(req: Request, res: Response) {
     }
 }
 
-export const todosController = { createTodo, deleteTodo, updateTodo, getTodos };
+export const todosController = { createTodo, deleteTodo, deleteFewTodos, updateTodo, getTodos };

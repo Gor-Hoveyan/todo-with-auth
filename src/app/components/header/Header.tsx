@@ -1,20 +1,25 @@
 'use client';
 import Link from "next/link";
 import styles from './header.module.scss';
-import { IoMoon } from "react-icons/io5";
-import { IoSunny } from "react-icons/io5";
+import { IoMoon, IoSunny } from "react-icons/io5";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setIsDarkMode, signOut } from "@/redux/reducers/todoReducer";
+import { setIsDarkMode, signOut, signOutC } from "@/redux/reducers/todoReducer";
+import { UserType } from "@/utils/types";
 
 export default function Header() {
     const isDarkMode = useAppSelector(state => state.todoReducer.isDarkMode);
-    const userName = useAppSelector(state => state.todoReducer.user.userName);
+    const user: UserType| undefined = useAppSelector(state => state.todoReducer.user);
     const dispatch = useAppDispatch();
 
 
     function handleAuth() {
 
-        if (!userName.length) {
+        function handleSignOut() {
+            dispatch(signOut());
+            dispatch(signOutC());
+        }
+
+        if (!user) {
             return (
                 <div className={styles.headerAuth}>
                     <Link className={styles.headerLink} href={'/auth/login'}>Sign In</Link>
@@ -24,7 +29,7 @@ export default function Header() {
         } else {
             return (
                 <div className={styles.headerAuth}>
-                    <Link className={styles.headerLink} onClick={() => dispatch(signOut())} href={'/auth/login'}>Sign out</Link>
+                    <Link className={styles.headerLink} onClick={() => handleSignOut()} href={'/auth/login'}>Sign out</Link>
                 </div>
             );
         }

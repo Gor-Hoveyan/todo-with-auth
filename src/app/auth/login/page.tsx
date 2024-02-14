@@ -2,7 +2,7 @@
 import styles from './login.module.scss';
 import { FormEvent, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { fetchLogin, setAuthFormData, clearAuthFormData, setErrorMessage } from "@/redux/reducers/todoReducer";
+import { fetchLogin, setAuthFormData, clearAuthFormData, setErrorMessage, autoLogin } from "@/redux/reducers/todoReducer";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
@@ -21,12 +21,12 @@ export default function Login() {
         const password = formData.get('password') as string;
 
         const res: any = await dispatch(fetchLogin({ userName: username, password }));
-
-        if (res.payload.message !== 'Entered invalid userName or password') {
+        if(res.payload.message === 'Success') {
             router.push('/');
         } else {
-            dispatch(setErrorMessage('Entered invalid userName or password'));
+            dispatch(setErrorMessage('Entered invalid password or username'))
         }
+        
     }
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {

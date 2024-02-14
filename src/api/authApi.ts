@@ -38,4 +38,13 @@ async function authoLog() {
     return res.json();
 }
 
-export const authApi = { login, register, authoLog };
+async function sigOutC() {
+    await fetch (`http://localhost:3000/api/auth/signOut`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+}
+
+export const authApi = { login, register, authoLog, sigOutC };

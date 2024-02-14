@@ -10,26 +10,9 @@ export type UserType = {
     _id: string
 }
 
-export type FetchedUserType = {
-    password: string,
-    todos: TodoType[],
-    userName: string,
-    v: number,
-    _id: string
-}
-
-export type FetchedDataType = {
-    user: FetchedUserType
-}
-
 export type LoginProps = {
     userName: string,
     password: string
-}
-
-
-export type FetchUserParams = {
-    accountToken: string
 }
 
 export type CreateTodoParams = {
@@ -46,4 +29,16 @@ export type UpdateTodoParams = {
     id: string,
     creator: string,
     newContent: string
+}
+
+export type DeleteFewTodosParams = {
+    creator: string,
+    todos: string[]
+}
+
+export type CheckedTodos = CheckedTodo[];
+
+export type CheckedTodo = {
+    id: string,
+    isChecked: boolean
 }

@@ -2,7 +2,7 @@
 import styles from './registration.module.scss';
 import { FormEvent, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { fetchRegister, setUser, setAuthFormData, clearAuthFormData, setErrorMessage, setRepeatedPassword } from "@/redux/reducers/todoReducer";
+import { fetchRegister, setAuthFormData, clearAuthFormData, setErrorMessage, setRepeatedPassword } from "@/redux/reducers/todoReducer";
 import { useRouter } from "next/navigation";
 
 
