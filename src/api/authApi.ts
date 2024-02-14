@@ -1,7 +1,7 @@
 
 
 async function login(userName: string, password: string) {
-    const res = await fetch(`https://todo-with-auth-six.vercel.app/api/auth/login`, {
+    const res = await fetch(`http://localhost:3000/api/auth/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
