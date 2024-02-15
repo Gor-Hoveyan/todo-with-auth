@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon --exec ts-node-esm --project tsconfig.server.json ./server/index.ts",
-    "express-server": "ts-node-esm tsconfig.server.json ./server/index.ts",
+    "dev": "nodemon --exec ts-node --project tsconfig.server.json ./server/index.ts",
+    "express-server": "ts-node tsconfig.server.json ./server/index.ts",
     "next-app": "next dev"
   },
   "dependencies": {
