@@ -9,7 +9,7 @@ const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-mongoose.connect('mongodb+srv://gorhoveyan:333@cluster0.q3afx9w.mongodb.net/').then(() => {
+mongoose.connect('mongodb+srv://gor:333@cluster0.59djijr.mongodb.net/?retryWrites=true&w=majority').then(() => {
   console.log('DB connected on port 3000');
 }).catch(err => {
   console.log(err);
